@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 5
+names: ['Cabossage', 'Dechirure', 'Fissure', 'Phare abime', 'Rayure']
+
+roboflow:
+  workspace: labelvoiture
+  project: car-damage-q7zyb
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/labelvoiture/car-damage-q7zyb/dataset/2
