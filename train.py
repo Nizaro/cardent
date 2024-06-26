@@ -6,12 +6,12 @@ if __name__ == '__main__':
     print(device)
 
     # Charger le modèle YOLOv8
-    model = YOLO("yolov8m.pt")
+    model = YOLO("yolov8s.pt")
     print(model.info())
 
 
     # Entraîner le modèle
-    result = model.train(data="data.yaml", epochs=100, device=device, batch=8)
+    result = model.train(data="data.yaml", epochs=250, device=device)
 
     print(result)
     
