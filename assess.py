@@ -25,11 +25,11 @@ precision_rayure = 0
 precision_dechirure = 0
 precision_phare_abime = 0
 
-label_path = os.path.join("valid\\labels")
+label_path = os.path.join("test\\labels")
       
-for fichier in os.listdir("valid\\images"):
+for fichier in os.listdir("test\\images"):
     if fichier.endswith('.jpg') or fichier.endswith('.JPG'):
-        image_path = os.path.join("valid\\images", fichier)
+        image_path = os.path.join("test\\images", fichier)
         
         #print(f"Processing image: {image_path}")
         if PREDICT:            
@@ -128,8 +128,8 @@ def recup_effectif_label(label_path, label_infered_path):
             classes_infered = set()
             for ligne in fichier_infered:
                 classe = ligne.split()[0]
-                if classe=="1":
-                    classe="4"
+                #if classe=="1":
+                    #classe="4"
                 classes_infered.add(classe)
 
             for classe in classes_observees:
@@ -147,8 +147,8 @@ def recup_effectif_label(label_path, label_infered_path):
 
 
 if __name__ == "__main__":
-    label_infered_path = os.path.join("runs\\detect\\predict16\\labels")
-    label_path = os.path.join("valid\\labels")
+    label_infered_path = os.path.join("runs\\detect\\predict18\\labels")
+    label_path = os.path.join("test\\labels")
 
     precision = recup_effectif_label(label_path, label_infered_path)
     
