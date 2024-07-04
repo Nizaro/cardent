@@ -13,8 +13,7 @@ class_mapping = {
 }
 #FLAG pour choisir si je fais une prédiction ou pas
 PREDICT = False
-
-model = YOLO("runs\\detect\\train18\\weights\\best.pt")
+model = YOLO("runs\\detect\\train23\\weights\\best.pt")
 # View all settings
 print(model.info())
 # Définir le périphérique à utiliser (CPU ou GPU)
@@ -26,11 +25,11 @@ precision_rayure = 0
 precision_dechirure = 0
 precision_phare_abime = 0
 
-label_path = os.path.join("test\\labels")
+label_path = os.path.join("valid\\labels")
       
-for fichier in os.listdir("test\\images"):
-    if fichier.endswith('.jpg'):
-        image_path = os.path.join("test\\images", fichier)
+for fichier in os.listdir("valid\\images"):
+    if fichier.endswith('.jpg') or fichier.endswith('.JPG'):
+        image_path = os.path.join("valid\\images", fichier)
         
         #print(f"Processing image: {image_path}")
         if PREDICT:            
@@ -113,6 +112,7 @@ def recup_effectif_label(label_path, label_infered_path):
         file_name = label.split(".")[0]
 
         classes_observees = set()
+         
         for ligne in fichier:
             classe = ligne.split()[0]
             classes_observees.add(classe)
@@ -128,6 +128,8 @@ def recup_effectif_label(label_path, label_infered_path):
             classes_infered = set()
             for ligne in fichier_infered:
                 classe = ligne.split()[0]
+                if classe=="1":
+                    classe="4"
                 classes_infered.add(classe)
 
             for classe in classes_observees:
@@ -145,11 +147,15 @@ def recup_effectif_label(label_path, label_infered_path):
 
 
 if __name__ == "__main__":
-    label_infered_path = os.path.join("runs\\detect\\predict8\\labels")
-    label_path = os.path.join("test\\labels")
+    label_infered_path = os.path.join("runs\\detect\\predict16\\labels")
+    label_path = os.path.join("valid\\labels")
 
-    sensitivity, specificity = assess_specificity(label_path, label_infered_path)
-    print("Sensitivity : ", sensitivity)
-    print("Specificity : ", specificity)
-
+    precision = recup_effectif_label(label_path, label_infered_path)
     
+    print(precision)
+   # Validate the model
+#metrics = model.val()  # no arguments needed, dataset and settings remembered
+#metrics.box.map  # map50-95
+#metrics.box.map50  # map50
+#metrics.box.map75  # map75
+#metrics.box.maps  # a list contains map50-95 of each category
