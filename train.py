@@ -14,7 +14,6 @@ if __name__ == '__main__':
         param.requires_grad = False
 
 
-
     # Entraîner le modèle
     result = model.train(data="data.yaml", epochs=200, device=device)
 
