@@ -8,12 +8,17 @@ if __name__ == '__main__':
     # Charger le modèle YOLOv8
     model = YOLO("yolov8s.pt")
     print(model.info())
+    
+    for name, param in model.named_parameters():
+     if 'backbone' in name:
+        param.requires_grad = False
+
 
 
     # Entraîner le modèle
-    result = model.train(data="data.yaml", epochs=250, device=device)
+    result = model.train(data="data.yaml", epochs=200, device=device)
 
     print(result)
     
     
-    
+      
