@@ -13,7 +13,7 @@ class_mapping = {
 }
 #FLAG pour choisir si je fais une prédiction ou pas
 PREDICT = False
-model = YOLO("runs\\detect\\train23\\weights\\best.pt")
+model = YOLO("runs\\detect\\train24\\weights\\best.pt")
 # View all settings
 print(model.info())
 # Définir le périphérique à utiliser (CPU ou GPU)
@@ -147,7 +147,7 @@ def recup_effectif_label(label_path, label_infered_path):
 
 
 if __name__ == "__main__":
-    label_infered_path = os.path.join("runs\\detect\\predict18\\labels")
+    label_infered_path = os.path.join("runs\\detect\\predict22\\labels")
     label_path = os.path.join("test\\labels")
 
     precision = recup_effectif_label(label_path, label_infered_path)
