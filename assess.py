@@ -2,6 +2,7 @@
 from ultralytics import YOLO
 import torch
 import os
+import matplotlib.pyplot as plt
 
 class_mapping = {
     "0": "Cabossage",
@@ -9,14 +10,14 @@ class_mapping = {
     "2": "Fissure",
     "3": "Phare abime",
     "4": "Rayure",
-    # ajoutez d'autres mappages ici si nécessaire
+   
 }
-#FLAG pour choisir si je fais une prédiction ou pas
+#
 PREDICT = False
 model = YOLO("runs\\detect\\train24\\weights\\best.pt")
-# View all settings
+
 print(model.info())
-# Définir le périphérique à utiliser (CPU ou GPU)
+
 class_observed = []
 class_to_observe = []
 precision_fissure = 0
@@ -99,7 +100,8 @@ def assess_specificity(label_path,label_infered_path):
 
 
     
-
+# cette fonction permet de calculer la precision de chaque classe et la precision globale
+#en entrée on a le chemin du dossier contenant les labels et le chemin du dossier contenant les labels inferésS
 
 def recup_effectif_label(label_path, label_infered_path):
     dossier_label = os.listdir(label_path)
@@ -140,19 +142,30 @@ def recup_effectif_label(label_path, label_infered_path):
 
     precision = {class_mapping[k]: (precision_classes[k] / effectif_classes[k]) if effectif_classes[k] > 0 else 0
                  for k in effectif_classes}
-    return precision
+    print("precision: ",precision)
+    precision_globale = sum(precision.values()) / len(precision)
+    print("precision_globale: ",precision_globale)
+    return precision_globale
 
 
 
-
+precision = []
 
 if __name__ == "__main__":
-    label_infered_path = os.path.join("runs\\detect\\predict22\\labels")
-    label_path = os.path.join("test\\labels")
-
-    precision = recup_effectif_label(label_path, label_infered_path)
-    
-    print(precision)
+    for i in range(35, 108):
+        label_infered_path = os.path.join(f"runs\\detect\\val{i}\\labels")
+        print(label_infered_path)
+        label_path = os.path.join("valid_ancien\\labels")
+        print(label_path)
+        print(recup_effectif_label(label_path, label_infered_path))
+        precision.append(recup_effectif_label(label_path, label_infered_path))
+    indices = list(range(35,108 ))
+    plt.plot(indices, precision, marker='o')
+    plt.xlabel("Index")
+    plt.ylabel("Precision")
+    plt.title("Precision vs Index")
+    plt.grid(True)
+    plt.show()
    # Validate the model
 #metrics = model.val()  # no arguments needed, dataset and settings remembered
 #metrics.box.map  # map50-95
